@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cronus IA — Plano R$1M/mês</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0B0C0E;
+  --bg2:       #111318;
+  --bg3:       #171A21;
+  --bg4:       #1E2028;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+  --text:      #E8E6E0;
+  --muted:     #7A7870;
+  --faint:     #3A3835;
+  --green:     #1BE374;
+  --green-dim: rgba(27,227,116,0.12);
+  --green-glow:rgba(27,227,116,0.25);
+  --amber:     #F5A830;
+  --amber-dim: rgba(245,168,48,0.12);
+  --coral:     #E8614D;
+  --coral-dim: rgba(232,97,77,0.12);
+  --blue:      #5AABF5;
+  --blue-dim:  rgba(90,171,245,0.12);
+  --purple:    #A594F9;
+  --purple-dim:rgba(165,148,249,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NOISE TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: .4;
+}
+
+.page { max-width: 900px; margin: 0 auto; padding: 48px 28px 80px; position: relative; z-index: 1; }
+
+/* ── SECTION HEADERS ── */
+.section-label {
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'Syne', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted);
+  margin: 56px 0 20px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-label span { white-space: nowrap; }
+
+/* ── HERO ── */
+.hero {
+  position: relative; overflow: hidden;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 48px 48px 40px;
+  margin-bottom: 8px;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(27,227,116,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--green);
+  background: var(--green-dim);
+  border: 1px solid rgba(27,227,116,0.2);
+  padding: 4px 12px; border-radius: 99px;
+  margin-bottom: 20px;
+}
+.hero-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(0.8)} }
+
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 5vw, 52px); font-weight: 800; line-height: 1.05;
+  letter-spacing: -.02em;
+  margin-bottom: 10px;
+}
+.hero-title .accent { color: var(--green); }
+.hero-sub {
+  font-size: 15px; color: var(--muted); margin-bottom: 36px;
+  font-weight: 300;
+}
+
+.metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.metric {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  position: relative; overflow: hidden;
+  transition: border-color .2s;
+}
+.metric:hover { border-color: var(--border2); }
+.metric.target {
+  border-color: rgba(27,227,116,0.3);
+  background: linear-gradient(135deg, var(--bg3) 60%, rgba(27,227,116,0.04));
+}
+.metric-label {
+  font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+}
+.metric-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px; font-weight: 700; line-height: 1;
+  margin-bottom: 5px;
+}
+.metric.target .metric-value { color: var(--green); }
+.metric-sub { font-size: 11px; color: var(--muted); }
+
+/* ── PROGRESS BAR ── */
+.progress-section { margin-top: 28px; }
+.progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.progress-header span { font-size: 11px; color: var(--muted); }
+.progress-track {
+  height: 4px; background: var(--bg4); border-radius: 2px; position: relative; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--green), #8BFFBB);
+  border-radius: 2px; width: 1%;
+  animation: fillBar 1.5s cubic-bezier(.16,1,.3,1) 0.5s forwards;
+}
+@keyframes fillBar { to { width: 1% } }
+.progress-milestones {
+  display: flex; justify-content: space-between; margin-top: 10px;
+}
+.milestone-tick { text-align: center; }
+.milestone-tick .val { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--text); }
+.milestone-tick .lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* ── PILLARS ── */
+.pillars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pillar {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 24px 20px;
+  position: relative; overflow: hidden;
+  transition: transform .2s, border-color .2s;
+  cursor: default;
+}
+.pillar:hover { transform: translateY(-2px); border-color: var(--border2); }
+
+.pillar-accent {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.p1 .pillar-accent { background: var(--green); }
+.p2 .pillar-accent { background: var(--blue); }
+.p3 .pillar-accent { background: var(--coral); }
+.p4 .pillar-accent { background: var(--purple); }
+
+.pillar-num {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.p1 .pillar-num { color: var(--green); }
+.p2 .pillar-num { color: var(--blue); }
+.p3 .pillar-num { color: var(--coral); }
+.p4 .pillar-num { color: var(--purple); }
+
+.pillar-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px; font-weight: 700; line-height: 1.25;
+  margin-bottom: 8px;
+}
+.pillar-target {
+  font-family: 'DM Mono', monospace;
+  font-size: 22px; font-weight: 500;
+  margin-bottom: 10px;
+}
+.p1 .pillar-target { color: var(--green); }
+.p2 .pillar-target { color: var(--blue); }
+.p3 .pillar-target { color: var(--coral); }
+.p4 .pillar-target { color: var(--purple); }
+
+.pillar-desc { font-size: 12px; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
+.chip {
+  display: inline-block;
+  font-size: 10px; font-weight: 500; letter-spacing: .06em;
+  padding: 3px 10px; border-radius: 99px;
+}
+.chip-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(27,227,116,0.2); }
+.chip-blue  { background: var(--blue-dim);  color: var(--blue);  border: 1px solid rgba(90,171,245,0.2); }
+.chip-coral { background: var(--coral-dim); color: var(--coral); border: 1px solid rgba(232,97,77,0.2); }
+.chip-purple{ background: var(--purple-dim);color: var(--purple);border: 1px solid rgba(165,148,249,0.2); }
+
+/* ── PRICING TABLE ── */
+.table-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead tr { border-bottom: 1px solid var(--border); }
+th {
+  font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 14px 20px; text-align: left;
+}
+td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr { transition: background .15s; }
+tbody tr:hover td { background: var(--bg3); }
+.t-name { font-weight: 500; font-size: 13px; }
+.t-sub  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.t-setup { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.t-mrr  { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; color: var(--green); }
+.t-contract { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.t-focus { font-size: 11px; color: var(--muted); }
+.table-note {
+  font-size: 11px; color: var(--muted);
+  margin-top: 12px; padding: 0 4px;
+  border-left: 2px solid var(--faint);
+  padding-left: 12px;
+}
+
+/* ── TIMELINE ── */
+.timeline { position: relative; }
+.tl-phase {
+  display: grid; grid-template-columns: 110px 1fr;
+  gap: 0; position: relative;
+  padding: 0 0 8px;
+}
+.tl-phase::before {
+  content: '';
+  position: absolute; left: 110px; top: 24px; bottom: -8px;
+  width: 1px; background: var(--border);
+}
+.tl-phase:last-child::before { display: none; }
+
+.tl-date {
+  padding: 20px 20px 20px 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  color: var(--muted);
+  text-align: right;
+  line-height: 1.4;
+}
+.tl-body {
+  padding: 20px 0 20px 28px;
+  position: relative;
+}
+.tl-body::before {
+  content: '';
+  position: absolute; left: -1px; top: 28px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--bg4); border: 2px solid var(--border2);
+}
+.tl-phase.milestone .tl-body::before {
+  background: var(--green); border-color: var(--green);
+  box-shadow: 0 0 12px var(--green-glow);
+}
+.tl-phase.final .tl-body::before {
+  background: var(--amber); border-color: var(--amber);
+  box-shadow: 0 0 12px rgba(245,168,48,0.4);
+}
+
+.tl-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.tl-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 700;
+}
+.tl-revenue {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  background: var(--bg4);
+  color: var(--muted);
+  padding: 3px 10px; border-radius: 99px;
+  border: 1px solid var(--border);
+}
+.tl-revenue.is-milestone {
+  background: var(--green-dim); color: var(--green);
+  border-color: rgba(27,227,116,0.25);
+}
+.tl-revenue.is-final {
+  background: var(--amber-dim); color: var(--amber);
+  border-color: rgba(245,168,48,0.25);
+}
+
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill {
+  font-size: 11px; font-weight: 400;
+  padding: 4px 11px; border-radius: 99px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: border-color .2s;
+}
+.pill:hover { border-color: var(--border2); color: var(--text); }
+.pill.urgent {
+  background: var(--coral-dim); color: var(--coral);
+  border-color: rgba(232,97,77,0.25);
+}
+.pill.key {
+  background: var(--blue-dim); color: var(--blue);
+  border-color: rgba(90,171,245,0.25);
+}
+
+/* ── HIRING ── */
+.hiring-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.hire-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  transition: transform .2s, border-color .2s;
+}
+.hire-card:hover { transform: translateY(-2px); border-color: var(--border2); }
+.hire-seq {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px; font-weight: 800;
+  color: var(--faint); line-height: 1;
+  margin-bottom: 12px;
+}
+.hire-month { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.hire-role { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 5px; line-height: 1.3; }
+.hire-cost { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--green); margin-bottom: 10px; }
+.hire-why { font-size: 11px; color: var(--muted); line-height: 1.55; }
+.hiring-note {
+  margin-top: 12px;
+  font-size: 11px; color: var(--muted);
+  border-left: 2px solid var(--faint);
+  padding-left: 12px;
+}
+
+/* ── RULES ── */
+.rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.rule-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex; gap: 14px;
+  transition: border-color .2s;
+}
+.rule-card:hover { border-color: var(--border2); }
+.rule-icon-wrap {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--bg4); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 16px;
+}
+.rule-body { flex: 1; }
+.rule-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+.rule-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+/* ── ACTIONS 14 DAYS ── */
+.actions-table { width: 100%; }
+.actions-table .at-row {
+  display: grid; grid-template-columns: 32px 1fr 100px 80px;
+  gap: 8px; align-items: start;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+}
+.actions-table .at-row:last-child { border-bottom: none; }
+.actions-table .at-row:hover { background: var(--bg3); }
+.at-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  color: var(--faint); padding-top: 1px;
+}
+.at-desc { font-size: 13px; line-height: 1.4; }
+.at-desc.critical { color: var(--coral); font-weight: 500; }
+.at-owner { font-size: 11px; color: var(--muted); padding-top: 2px; }
+.at-days {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  padding-top: 2px; text-align: right;
+}
+
+/* ── RISKS ── */
+.risks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.risk-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+.risk-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.risk-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 99px;
+}
+.r-alta  { background: var(--coral-dim); color: var(--coral); border: 1px solid rgba(232,97,77,0.25); }
+.r-media { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,168,48,0.25); }
+.risk-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; }
+.risk-arrow { font-size: 12px; color: var(--faint); margin: 4px 0 6px; }
+.risk-mit { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+/* ── FINAL TABLE ── */
+.final-table-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+}
+.final-table-wrap table { font-size: 13px; }
+.ft-name { font-weight: 500; }
+.ft-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 15px; font-weight: 500; color: var(--green);
+}
+.ft-total td { border-top: 1px solid var(--border2) !important; }
+.ft-total .ft-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; }
+.ft-total .ft-val { font-size: 20px; }
+.ft-detail { font-size: 11px; color: var(--muted); }
+
+/* ── FOOTER ── */
+.footer {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-brand {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px; font-weight: 800;
+  color: var(--green);
+}
+.footer-text { font-size: 11px; color: var(--muted); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .page { padding: 24px 16px 60px; }
+  .hero { padding: 28px 24px; }
+  .metrics-row { grid-template-columns: 1fr 1fr; }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .hiring-grid { grid-template-columns: 1fr 1fr; }
+  .rules-grid { grid-template-columns: 1fr; }
+  .risks-grid { grid-template-columns: 1fr; }
+  .tl-phase { grid-template-columns: 70px 1fr; }
+  .actions-table .at-row { grid-template-columns: 28px 1fr; }
+  .at-owner, .at-days { display: none; }
+  th:nth-child(n+4), td:nth-child(n+4) { display: none; }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero { animation: fadeUp .6s cubic-bezier(.16,1,.3,1) both; }
+.section-label { animation: fadeUp .5s cubic-bezier(.16,1,.3,1) .1s both; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══ HERO ══ -->
+  <div class="hero">
+    <div class="hero-eyebrow">Plano definitivo — síntese dos 4</div>
+    <h1 class="hero-title">Cronus IA<br><span class="accent">R$10K → R$1M</span>/mês</h1>
+    <p class="hero-sub">Abr–Dez 2026 &nbsp;·&nbsp; Plano híbrido de execução &nbsp;·&nbsp; 9 meses</p>
+
+    <div class="metrics-row">
+      <div class="metric">
+        <div class="metric-label">Hoje</div>
+        <div class="metric-value">R$10K</div>
+        <div class="metric-sub">4 clientes · 3 pessoas</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Marco Jun/26</div>
+        <div class="metric-value">R$100K</div>
+        <div class="metric-sub">Prova do modelo</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Marco Set/26</div>
+        <div class="metric-value">R$450K</div>
+        <div class="metric-sub">Escala confirmada</div>
+      </div>
+      <div class="metric target">
+        <div class="metric-label">Meta Dez/26</div>
+        <div class="metric-value">R$1M+</div>
+        <div class="metric-sub">~170 clientes · 20 pessoas</div>
+      </div>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-header">
+        <span>Jornada de crescimento</span>
+        <span>100× em 9 meses</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="pBar"></div>
+      </div>
+      <div class="progress-milestones">
+        <div class="milestone-tick"><div class="val">R$10K</div><div class="lbl">Abr</div></div>
+        <div class="milestone-tick"><div class="val">R$100K</div><div class="lbl">Jun</div></div>
+        <div class="milestone-tick"><div class="val">R$450K</div><div class="lbl">Set</div></div>
+        <div class="milestone-tick"><div class="val" style="color:var(--green)">R$1M+</div><div class="lbl">Dez</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PILARES ══ -->
+  <div class="section-label"><span>Os 4 pilares de receita</span></div>
+  <div class="pillars-grid">
+    <div class="pillar p1">
+      <div class="pillar-accent"></div>
+      <div class="pillar-num">Pilar 1</div>
+      <div class="pillar-name">Domínio de franquias</div>
+      <div class="pillar-target">R$300K/mês</div>
+      <div class="pillar-desc">Além do Olhar como vitrine. 1 contrato = 40 lojas. Prospectar 200 redes da ABF com o case em mãos.</div>
+      <span class="chip chip-green">Maior multiplicador</span>
+    </div>
+    <div class="pillar p2">
+      <div class="pillar-accent"></div>
+      <div class="pillar-num">Pilar 2</div>
+      <div class="pillar-name">B2B direto escalado</div>
+      <div class="pillar-target">R$300K/mês</div>
+      <div class="pillar-desc">Equipe de vendas crescente, programa de parceiros e autoridade no LinkedIn. Pacotes padronizados.</div>
+      <span class="chip chip-blue">Previsível</span>
+    </div>
+    <div class="pillar p3">
+      <div class="pillar-accent"></div>
+      <div class="pillar-num">Pilar 3</div>
+      <div class="pillar-name">Revenue share / performance</div>
+      <div class="pillar-target">R$200K/mês</div>
+      <div class="pillar-desc">5–10 contratos com empresas de faturamento alto e inadimplência. Modelo: setup simbólico + % do resultado gerado.</div>
+      <span class="chip chip-coral">Alto impacto</span>
+    </div>
+    <div class="pillar p4">
+      <div class="pillar-accent"></div>
+      <div class="pillar-num">Pilar 4</div>
+      <div class="pillar-name">White-label / embedded</div>
+      <div class="pillar-target">R$200K/mês</div>
+      <div class="pillar-desc">2–3 parcerias com software houses, ERPs (Bling, Omie, Tiny). Eles vendem, vocês entregam a infraestrutura.</div>
+      <span class="chip chip-purple">Escala indireta</span>
+    </div>
+  </div>
+
+  <!-- ══ PRECIFICAÇÃO ══ -->
+  <div class="section-label"><span>Nova tabela de preços — vigência imediata</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Setup único</th>
+          <th>Mensalidade</th>
+          <th>Contrato</th>
+          <th>Foco</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="t-name">Cronus Starter</div><div class="t-sub">1–2 camadas</div></td>
+          <td class="t-setup">R$8.000</td>
+          <td class="t-mrr">R$1.500</td>
+          <td class="t-contract">12 meses</td>
+          <td class="t-focus">PMEs, tração inicial</td>
+        </tr>
+        <tr>
+          <td><div class="t-name">Cronus Business</div><div class="t-sub">3–4 camadas</div></td>
+          <td class="t-setup">R$20.000</td>
+          <td class="t-mrr">R$2.500</td>
+          <td class="t-contract">12 meses</td>
+          <td class="t-focus">Médias empresas</td>
+        </tr>
+        <tr>
+          <td><div class="t-name">Cronus Enterprise</div><div class="t-sub">Todas + compliance</div></td>
+          <td class="t-setup">R$45.000</td>
+          <td class="t-mrr">R$5.000</td>
+          <td class="t-contract">12 meses</td>
+          <td class="t-focus">Empresas 200+ func.</td>
+        </tr>
+        <tr>
+          <td><div class="t-name">Cronus Franchise</div><div class="t-sub">Por unidade de rede</div></td>
+          <td class="t-setup">R$5.000/loja</td>
+          <td class="t-mrr">R$1.200/loja</td>
+          <td class="t-contract">12 meses</td>
+          <td class="t-focus">Franquias e redes</td>
+        </tr>
+        <tr>
+          <td><div class="t-name">Cronus White-Label</div><div class="t-sub">Para parceiros revenderem</div></td>
+          <td class="t-setup">R$80.000</td>
+          <td class="t-mrr">R$8.000</td>
+          <td class="t-contract">24 meses</td>
+          <td class="t-focus">Software houses, ERPs</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="table-note">Regra absoluta: nunca desconto na mensalidade. Setup pode ter flexibilidade pontual com justificativa estratégica documentada.</p>
+
+  <!-- ══ TIMELINE ══ -->
+  <div class="section-label"><span>Cronograma mês a mês</span></div>
+  <div class="timeline">
+
+    <div class="tl-phase">
+      <div class="tl-date">Abr–Mai<br>Mês 1–2</div>
+      <div class="tl-body">
+        <div class="tl-header">
+          <span class="tl-name">Fundação</span>
+          <span class="tl-revenue">R$25K → R$45K</span>
+        </div>
+        <div class="pills">
+          <span class="pill urgent">Além do Olhar: entrega impecável</span>
+          <span class="pill">Documentar KPIs em tempo real</span>
+          <span class="pill key">Nova tabela de preços</span>
+          <span class="pill">CRM configurado (HubSpot)</span>
+          <span class="pill">Lista 200 franquias ABF</span>
+          <span class="pill">LinkedIn do Leandro ativo</span>
+          <span class="pill">Contratar 1 SDR</span>
+          <span class="pill">Renegociar contratos % → mensalidade fixa</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-phase milestone">
+      <div class="tl-date">Jun<br>Mês 3</div>
+      <div class="tl-body">
+        <div class="tl-header">
+          <span class="tl-name">Aceleração</span>
+          <span class="tl-revenue is-milestone">R$100K — Marco</span>
+        </div>
+        <div class="pills">
+          <span class="pill urgent">Case study filmado da Além do Olhar</span>
+          <span class="pill key">Propor expansão 5 lojas (piloto franquia)</span>
+          <span class="pill">LinkedIn 5x/semana — Leandro como autoridade</span>
+          <span class="pill">Palestra gratuita em evento ABF</span>
+          <span class="pill">Outbound: 200 contatos/mês franquias</span>
+          <span class="pill">Contratar 1 dev de implantação</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-phase">
+      <div class="tl-date">Jul–Ago<br>Mês 4–5</div>
+      <div class="tl-body">
+        <div class="tl-header">
+          <span class="tl-name">Tração</span>
+          <span class="tl-revenue">R$180K → R$300K</span>
+        </div>
+        <div class="pills">
+          <span class="pill urgent">Expandir Além do Olhar para 20 lojas</span>
+          <span class="pill key">Lançar programa de parceiros (15–20% comissão)</span>
+          <span class="pill">Contratar 2º dev de implantação</span>
+          <span class="pill">Playbook de implantação documentado</span>
+          <span class="pill">Primeiros contratos revenue share</span>
+          <span class="pill">Webinar mensal para captura de leads</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-phase milestone">
+      <div class="tl-date">Set–Out<br>Mês 6–7</div>
+      <div class="tl-body">
+        <div class="tl-header">
+          <span class="tl-name">Escala</span>
+          <span class="tl-revenue is-milestone">R$450K → R$650K</span>
+        </div>
+        <div class="pills">
+          <span class="pill urgent">40 lojas Além do Olhar completas</span>
+          <span class="pill key">Atacar Enterprise (R$45K–100K setup)</span>
+          <span class="pill">Contratar closer enterprise</span>
+          <span class="pill">Parcerias ERPs (Bling, Omie, Tiny)</span>
+          <span class="pill">Tráfego pago R$5–10K/mês</span>
+          <span class="pill">Segunda rede de franquias no pipeline</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-phase final">
+      <div class="tl-date">Nov–Dez<br>Mês 8–9</div>
+      <div class="tl-body">
+        <div class="tl-header">
+          <span class="tl-name">R$1 Milhão</span>
+          <span class="tl-revenue is-final">R$850K → R$1M+</span>
+        </div>
+        <div class="pills">
+          <span class="pill urgent">Segunda rede de franquias fechada (30 lojas)</span>
+          <span class="pill key">2–3 contratos Enterprise ativos</span>
+          <span class="pill">Base instalada: ~170 clientes</span>
+          <span class="pill">White-label: 1–2 parceiros ativos</span>
+          <span class="pill">Recorrência: R$450K/mês (MRR sólido)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ CONTRATAÇÕES ══ -->
+  <div class="section-label"><span>Contratações mínimas — ordem de prioridade</span></div>
+  <div class="hiring-grid">
+    <div class="hire-card">
+      <div class="hire-seq">01</div>
+      <div class="hire-month">Mês 1–2 · Abr</div>
+      <div class="hire-role">SDR (pré-vendas)</div>
+      <div class="hire-cost">R$1.500 + variável</div>
+      <div class="hire-why">Alimenta o pipeline de franquias enquanto o time técnico entrega. Comissionado por reunião qualificada agendada.</div>
+    </div>
+    <div class="hire-card">
+      <div class="hire-seq">02</div>
+      <div class="hire-month">Mês 3 · Jun</div>
+      <div class="hire-role">Dev de implantação #1</div>
+      <div class="hire-cost">R$4.500–6.000</div>
+      <div class="hire-why">Libera o Leandro da operação. Segue o playbook documentado. Sem ele, o crescimento trava no mês 3.</div>
+    </div>
+    <div class="hire-card">
+      <div class="hire-seq">03</div>
+      <div class="hire-month">Mês 4–5 · Jul</div>
+      <div class="hire-role">Dev de implantação #2</div>
+      <div class="hire-cost">R$4.500–6.000</div>
+      <div class="hire-why">Capacidade de implantar 3–4 clientes simultâneos. Necessário para cumprir as metas de Julho e Agosto.</div>
+    </div>
+    <div class="hire-card">
+      <div class="hire-seq">04</div>
+      <div class="hire-month">Mês 5–6 · Ago</div>
+      <div class="hire-role">Closer enterprise</div>
+      <div class="hire-cost">R$4.000 + comissão</div>
+      <div class="hire-why">Focado exclusivamente em contratos R$45K+. A Aline lidera franquias e PMEs; o closer ataca enterprise.</div>
+    </div>
+  </div>
+  <p class="hiring-note">Total folha adicional até Ago/26: ~R$15–20K/mês · Priorize PJ e comissionados para preservar caixa nos primeiros meses.</p>
+
+  <!-- ══ REGRAS ══ -->
+  <div class="section-label"><span>Regras inegociáveis</span></div>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-icon-wrap">🔒</div>
+      <div class="rule-body">
+        <div class="rule-title">Mensalidade é sagrada</div>
+        <div class="rule-desc">Nunca mais desconto na recorrência. Setup pode ser negociado pontualmente. A mensalidade constrói o R$1M.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap">⚡</div>
+      <div class="rule-body">
+        <div class="rule-title">Além do Olhar é 50% do plano</div>
+        <div class="rule-desc">Sem o case validado não existe pipeline de franquias. Tudo o mais é secundário até este projeto brilhar.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap">🏗️</div>
+      <div class="rule-body">
+        <div class="rule-title">Leandro sai da operação</div>
+        <div class="rule-desc">Até Junho, CEO = estratégia + vendas enterprise + liderança. Implantação 100% delegada ao time técnico.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap">📦</div>
+      <div class="rule-body">
+        <div class="rule-title">Produto, não projeto</div>
+        <div class="rule-desc">Cada implantação vira playbook reutilizável. Venda infraestrutura replicável, jamais consultoria sob medida.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap">💰</div>
+      <div class="rule-body">
+        <div class="rule-title">50% upfront sempre</div>
+        <div class="rule-desc">Todo setup: metade na assinatura, metade na entrega. Nunca inicie implantação sem caixa em conta.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap">🎯</div>
+      <div class="rule-body">
+        <div class="rule-title">Nichar para dominar</div>
+        <div class="rule-desc">Franquias primeiro. Ser o melhor do Brasil neste nicho vale mais que ser mediano em todos os mercados.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ AÇÕES 14 DIAS ══ -->
+  <div class="section-label"><span>10 ações dos próximos 14 dias</span></div>
+  <div class="table-wrap">
+    <div class="actions-table">
+      <div class="at-row" style="background:var(--bg3); border-bottom:1px solid var(--border2);">
+        <div class="at-num" style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em">#</div>
+        <div class="at-desc" style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Ação</div>
+        <div class="at-owner" style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Responsável</div>
+        <div class="at-days" style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Prazo</div>
+      </div>
+      <div class="at-row"><div class="at-num">01</div><div class="at-desc critical">Entregar Além do Olhar com excelência — tudo o mais é secundário</div><div class="at-owner">Leandro</div><div class="at-days">Contínuo</div></div>
+      <div class="at-row"><div class="at-num">02</div><div class="at-desc">Publicar nova tabela de preços (Starter / Business / Enterprise / Franchise) e nunca mais dar desconto em mensalidade</div><div class="at-owner">Leandro + Sócia</div><div class="at-days">3 dias</div></div>
+      <div class="at-row"><div class="at-num">03</div><div class="at-desc">Definir 3 KPIs mensuráveis da Além do Olhar para uso no case study</div><div class="at-owner">Leandro</div><div class="at-days">3 dias</div></div>
+      <div class="at-row"><div class="at-num">04</div><div class="at-desc">Configurar CRM gratuito (HubSpot ou Pipedrive) com pipeline de franquias</div><div class="at-owner">Aline</div><div class="at-days">3 dias</div></div>
+      <div class="at-row"><div class="at-num">05</div><div class="at-desc">Montar lista das 200 redes de franquias com 20+ unidades (fonte: ABF, LinkedIn, Google)</div><div class="at-owner">Aline</div><div class="at-days">7 dias</div></div>
+      <div class="at-row"><div class="at-num">06</div><div class="at-desc">Otimizar perfil do LinkedIn do Leandro como thought leader em IA autônoma operacional</div><div class="at-owner">Leandro</div><div class="at-days">5 dias</div></div>
+      <div class="at-row"><div class="at-num">07</div><div class="at-desc">Escrever 10 posts de LinkedIn prontos para os próximos 30 dias</div><div class="at-owner">Leandro</div><div class="at-days">7 dias</div></div>
+      <div class="at-row"><div class="at-num">08</div><div class="at-desc">Criar sequência de 5 emails de outbound para franqueadoras</div><div class="at-owner">Aline</div><div class="at-days">7 dias</div></div>
+      <div class="at-row"><div class="at-num">09</div><div class="at-desc">Renegociar os 2 clientes com contrato de % → converter para mensalidade fixa ou encerrar</div><div class="at-owner">Leandro</div><div class="at-days">14 dias</div></div>
+      <div class="at-row"><div class="at-num">10</div><div class="at-desc">Contratar 1 SDR part-time/PJ com fixo + comissão por reunião qualificada</div><div class="at-owner">Sócia</div><div class="at-days">14 dias</div></div>
+    </div>
+  </div>
+
+  <!-- ══ RISCOS ══ -->
+  <div class="section-label"><span>Principais riscos e mitigação</span></div>
+  <div class="risks-grid">
+    <div class="risk-card">
+      <div class="risk-header"><span class="risk-badge r-alta">Alta</span><span class="risk-title">Leandro vira gargalo de entrega</span></div>
+      <div class="risk-arrow">→</div>
+      <div class="risk-mit">Documentar cada implantação como playbook desde o dia 1. Contratar 1º dev técnico até Junho sem exceções.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header"><span class="risk-badge r-alta">Alta</span><span class="risk-title">Caixa insuficiente para contratar</span></div>
+      <div class="risk-arrow">→</div>
+      <div class="risk-mit">50% upfront em todo setup. Priorizar contratações comissionadas. Linha de crédito BNDES/Finep como reserva.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header"><span class="risk-badge r-media">Média</span><span class="risk-title">Além do Olhar não gera resultado visível</span></div>
+      <div class="risk-arrow">→</div>
+      <div class="risk-mit">Alocar 70% do tempo do Leandro neste projeto nos meses 1–2. Sobrentregar em velocidade e KPIs.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-header"><span class="risk-badge r-alta">Alta</span><span class="risk-title">Precificação queimando margem</span></div>
+      <div class="risk-arrow">→</div>
+      <div class="risk-mit">A recorrência é sagrada. Qualquer desconto em mensalidade exige aprovação explícita com justificativa documentada.</div>
+    </div>
+  </div>
+
+  <!-- ══ COMPOSIÇÃO DO 1M ══ -->
+  <div class="section-label"><span>Como chega o R$1M em Dezembro/26</span></div>
+  <div class="final-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Fonte de receita</th>
+          <th>Valor/mês</th>
+          <th>Detalhamento</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="ft-name">Recorrência base instalada</td>
+          <td class="ft-val">R$250K</td>
+          <td class="ft-detail">~100 clientes Business + 40 lojas franquia</td>
+        </tr>
+        <tr>
+          <td class="ft-name">Setup novos clientes diretos</td>
+          <td class="ft-val">R$200K</td>
+          <td class="ft-detail">10 novos/mês × R$20K</td>
+        </tr>
+        <tr>
+          <td class="ft-name">Setup via parceiros/canais</td>
+          <td class="ft-val">R$150K</td>
+          <td class="ft-detail">5 parceiros vendendo 1–2/mês cada</td>
+        </tr>
+        <tr>
+          <td class="ft-name">Enterprise</td>
+          <td class="ft-val">R$200K</td>
+          <td class="ft-detail">2–3 contratos grandes ativos</td>
+        </tr>
+        <tr>
+          <td class="ft-name">Segunda rede de franquias</td>
+          <td class="ft-val">R$150K</td>
+          <td class="ft-detail">Setup de 30 unidades de nova rede</td>
+        </tr>
+        <tr class="ft-total">
+          <td class="ft-name">Total</td>
+          <td class="ft-val" style="font-size:22px;font-weight:700">R$1.000K</td>
+          <td class="ft-detail"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="footer">
+    <div class="footer-brand">CRONUS IA</div>
+    <div class="footer-text">Plano definitivo · Abr–Dez 2026 · Confidencial</div>
+  </div>
+
+</div>
+
+<script>
+  // Animate progress bar on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('pBar').style.cssText =
+        'width:1%; transition: width 2s cubic-bezier(.16,1,.3,1) 0.3s;';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.getElementById('pBar').style.width = '1%';
+        });
+      });
+    }, 100);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animation = 'fadeUp .5s cubic-bezier(.16,1,.3,1) both';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.pillar, .hire-card, .rule-card, .risk-card, .tl-phase').forEach(el => {
+    el.style.opacity = '0';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
